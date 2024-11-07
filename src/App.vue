@@ -175,15 +175,15 @@ export default {
 
 }
 .main_content .category_container {
-  width: 90%;
-  padding: 1rem;
+  width: 100%;
+  padding: 3rem;
   display: flex;
   margin: 4px;
   gap: 4px;
   height: auto;
 }
 .main_content .Promotion_container{
-  width: 80%;
+  width: 100%;
   height: auto;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(27rem, 1fr));
