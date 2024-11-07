@@ -175,20 +175,21 @@ export default {
 
 }
 .main_content .category_container {
-  gap: 1.2rem;
-  width: 100%;
+  width: 90%;
   padding: 1rem;
   display: flex;
-  flex-wrap: wrap;
+  margin: 4px;
+  gap: 4px;
   height: auto;
 }
 .main_content .Promotion_container{
-  width: 96%;
+  width: 80%;
   height: auto;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(27rem, 1fr));
   place-items: center;
-  row-gap: 1rem;
+  row-gap: 2rem;
+  column-gap: 1rem;
 }
 
 </style>
