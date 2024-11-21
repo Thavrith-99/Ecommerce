@@ -39,7 +39,7 @@ export default {
 
 .each_promotion{
     display: flex;
-    width: 27rem;
+    width: 28rem;
     position: relative;
     height: 14rem;
     align-items: center;

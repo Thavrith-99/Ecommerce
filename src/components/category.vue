@@ -34,7 +34,7 @@ export default {
 
 <style scoped>
 .each_category {
-    width: 8.25rem;
+    width: 8rem;
     height: 10rem;
     display: flex;
     flex-direction: column;
