@@ -27,6 +27,7 @@
 import CategoryComponent from './components/CategoryComponent.vue';
 import PromotionComponent from './components/PromotionComponent.vue';
 
+
 import axios from 'axios';
 import { useProductStore } from './stores/product';
 import { mapState } from 'pinia';
