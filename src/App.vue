@@ -1,195 +1,163 @@
-<script>
-import Category from './components/Category.vue';
-import Promotion from './components/Promotion.vue'
-import image1 from './assets/img/image1.png';
-import image2 from './assets/img/image2.png';
-import image3 from './assets/img/image3.png';
-import image4 from './assets/img/image4.png';
-import image5 from './assets/img/image5.png';
-import image6 from './assets/img/image6.png';
-import image7 from './assets/img/image7.png';
-import image8 from './assets/img/image8.png';
-import image9 from './assets/img/image9.png';
-import image10 from './assets/img/image10.png';
-
-import Csm_1 from './assets/img/Cms_1.jpg';
-import Csm_2 from './assets/img/Cms_2.png';
-import Csm_3 from './assets/img/Cms_3.jpg';
-
-
-export default {
-  name: "App",
-  components: {
-    Category,
-    Promotion,
-  },
-  data() {
-    return {
-      Data_promotion: [
-        {
-          content : "Everyday Fresh & Clean with Our Products",
-          promotion_image : Csm_1,
-          Style : {
-            backgroundColor : "#F0E8D5",
-          }
-        },
-        {
-          content : "Make your Breakfast Healthy and Easy",
-          promotion_image : Csm_2,
-          Style : {
-            backgroundColor : "#F3E8E8",
-          }
-        },
-        {
-          content : "The best Organic Products Online",
-          promotion_image : Csm_3,
-          Style : {
-            backgroundColor : "rgb(229, 234, 239)",
-          }
-        },
-
-
-      ],
-      Data_Contegory: [
-        {
-          Img: image1,
-          Title: "Cake & Milk",
-          Quantity: 14,
-          Style: {
-            backgroundColor: '#F2FCE4',
-          }
-        },
-        {
-          Img: image2,
-          Title: "Peach",
-          Quantity: 17,
-          Style: {
-            backgroundColor: '#FFFCEB',
-          }
-        },
-        {
-          Img: image3,
-          Title: "Oganic Kiwi",
-          Quantity: 21,
-          Style: {
-            backgroundColor: '#ECFFEC',
-          }
-        },
-        {
-          Img: image4,
-          Title: "Red Apple",
-          Quantity: 68,
-          Style: {
-            backgroundColor: '#FEEFEA',
-          }
-        },
-        {
-          Img: image5,
-          Title: "Snack",
-          Quantity: 34,
-          Style: {
-            backgroundColor: '#FFF3EB',
-          }
-
-        },
-        {
-          Img: image6,
-          Title: "Black plum",
-          Quantity: 25,
-          Style: {
-            backgroundColor: '#FFF3FF',
-          }
-        },
-        {
-          Img: image7,
-          Title: "Vegetables",
-          Quantity: 65,
-          Style: {
-            backgroundColor: '#F2FCE4',
-          }
-        },
-        {
-          Img: image8,
-          Title: "Headphone",
-          Quantity: 33,
-          Style: {
-            backgroundColor: '#FFFCEB',
-          }
-        },
-        {
-          Img: image9,
-          Title: "Cake & Milk",
-          Quantity: 54,
-          Style: {
-            backgroundColor: '#F2FCE4',
-          }
-        },
-        {
-          Img: image10,
-          Title: "Orange",
-          Quantity: 63,
-          Style: {
-            backgroundColor: '#FFF3FF',
-          }
-        },
-      ],
-    }
-
-  },
-}
-
-
-</script>
-
 <template>
+  <div class="container">
+      <template v-for="item in categories" key="item">
+        <CategoryComponent :label="item.name" 
+        :imgSrc="item.image" 
+        :quantity="item.productCount"
+        :bgColor="item.color"
+        />
+      </template>
+  </div>
 
-
-  <main class="main_content">
-    <div class="category_container">
-      <Category v-for="product in this.Data_Contegory" :key="product.Title" :style="product.Style" :image="product.Img"
-        :title="product.Title" :quantity="product.Quantity" />
-
-    </div>
-    <div class="Promotion_container">
-      <Promotion v-for="promotion in Data_promotion" 
-      :style="promotion.Style"
-      :key="promotion.content"
-      :Image="promotion.promotion_image"
-      :content="promotion.content"
+  <div class="container">
+    <template v-for="item in promotions" key="item">
+      <PromotionComponent 
+      :label="item.title" 
+      :bgColor="item.color" 
+      :imgSrc="item.image" 
+      :buttonColor="item.buttonColor"
       />
-
-    </div>
-
-  </main>
+    </template>
+  </div>
+  
 
 </template>
 
-<style>
-.main_content {
-  min-height: 100vh;
-  padding-bottom: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+<script >
+import CategoryComponent from './components/CategoryComponent.vue';
+import PromotionComponent from './components/PromotionComponent.vue';
 
+import axios from 'axios';
 
+export default {
+  components: {
+    CategoryComponent,
+    PromotionComponent
+  },
+  methods: {
+    getQuantity() {
+      return Math.floor(Math.random() * 100)
+    },
+    fetchCategories() {
+      axios.get("http://localhost:3000/api/categories").then(res => {
+        this.categories = res.data;
+      })
+    },
+    fetchPromotions() {
+      axios.get("http://localhost:3000/api/promotions").then(res => {
+        this.promotions = res.data;
+      })
+    }
+  },
+  data() {
+    return {
+
+      // TP2 : Step 1: Create local variables to represent component data
+      categories: [
+        {
+          label: 'Burger',
+          imgSrc: './src/assets/img/burger.png',
+          quantity: this.getQuantity(),
+          bgColor: "#F2FCE4",
+          radiusColor: "#81B13D",
+        },
+        {
+          label: 'Peach',
+          imgSrc: './src/assets/img/peach.png',
+          quantity: this.getQuantity(),
+          bgColor: '#FFFCEB',
+          radiusColor: '#f58d42'
+        },
+        {
+          label: 'Organic Kiwi',
+          imgSrc: './src/assets/img/kiwi.png',
+          quantity: this.getQuantity(),
+          bgColor: '#F2FCE4',
+          radiusColor: '#81B13D'
+        },
+        {
+          label: 'Red Apple', 
+          imgSrc: './src/assets/img/apple.png' ,
+          quantity: this.getQuantity(),
+          bgColor: '#FEEFEA',
+          radiusColor: '#f55742',
+        },
+        {
+          label: 'Snack' ,
+          imgSrc: './src/assets/img/snack.png' ,
+          quantity: this.getQuantity(),
+          bgColor: '#FFF3EB',
+          radiusColor: '#f55742',
+        },
+        {
+          label: 'Black Plum', 
+          imgSrc: './src/assets/img/plum.png' ,
+          quantity: this.getQuantity(),
+          bgColor: '#FFF3FF',
+          radiusColor: '#AAAAAA',
+        },
+        {
+          label: 'Vegetables' ,
+          imgSrc: './src/assets/img/vegetable.png' ,
+          quantity: this.getQuantity(),
+          bgColor: '#F2FCE4',
+          radiusColor: '#81B13D',
+        },
+        {
+          label: 'Headphone' ,
+          imgSrc: './src/assets/img/headphone.png' ,
+          quantity: this.getQuantity(),
+          bgColor: '#FFFCEB',
+          radiusColor: '#AAAAAA',
+        },
+        {
+          label: 'Cake & Milk' ,
+          imgSrc: './src/assets/img/cake.png' ,
+          quantity: this.getQuantity(),
+          bgColor: '#FFF3EB',
+          radiusColor: '#f55742',
+        },
+        {
+          label: 'Orange', 
+          imgSrc: './src/assets/img/orange.png' ,
+          quantity: this.getQuantity(),
+          bgColor: '#FFF3FF',
+          radiusColor: '#f55742',
+        },
+      ],
+      promotions: [
+        {
+          label: 'Everyday Fresh & Clean with Our Products',
+          imgSrc: './src/assets/img/onion.png',
+          bgColor: '#F0E8D5',
+          buttonColor: '#3BB77E',
+        },
+        {
+          label: 'Make your Breakfast Healthy and Easy',
+          imgSrc: './src/assets/img/strawberry.png',
+          bgColor: '#F3E8E8',
+          buttonColor: '#3BB77E',
+        },
+        {
+          label: 'The Best Organic Products Online',
+          imgSrc: './src/assets/img/fruitbasket.png',
+          bgColor: '#E7EAF3',
+          buttonColor: '#FDC040',
+        },
+      ]
+    }
+  },
+  mounted() {
+    this.fetchCategories();
+    this.fetchPromotions();
+  }
 }
-.main_content .category_container {
-  width: 100%;
-  padding: 3rem;
-  display: flex;
-  margin: 4px;
-  gap: 4px;
-  height: auto;
-}
-.main_content .Promotion_container{
-  width: 100%;
-  height: auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(27rem, 1fr));
-  place-items: center;
-  row-gap: 2rem;
-  column-gap: 1rem;
+</script>
+
+<style scoped>
+.container {
+  display: inline-flex;
 }
 
 </style>
+
