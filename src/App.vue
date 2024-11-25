@@ -1,10 +1,11 @@
 <template>
   <div class="container">
       <template v-for="item in categories" key="item">
-        <CategoryComponent :label="item.name" 
-        :imgSrc="item.image" 
+        <CategoryComponent :title="item.name" 
+        :image="item.image" 
         :quantity="item.productCount"
         :bgColor="item.color"
+        :radiusColor="item.radiusColor"
         />
       </template>
   </div>
@@ -24,8 +25,8 @@
 </template>
 
 <script >
-import CategoryComponent from './components/CategoryComponent.vue';
-import PromotionComponent from './components/PromotionComponent.vue';
+import CategoryComponent from './components/category.vue';
+import PromotionComponent from './components/promotion.vue';
 
 import axios from 'axios';
 
@@ -41,6 +42,7 @@ export default {
     fetchCategories() {
       axios.get("http://localhost:3000/api/categories").then(res => {
         this.categories = res.data;
+        console.log(this.categories);
       })
     },
     fetchPromotions() {
@@ -70,7 +72,7 @@ export default {
         },
         {
           label: 'Organic Kiwi',
-          imgSrc: './src/assets/img/kiwi.png',
+          imgSrc: './src/assets/img/Organic Kiwi.png',
           quantity: this.getQuantity(),
           bgColor: '#F2FCE4',
           radiusColor: '#81B13D'

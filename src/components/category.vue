@@ -1,6 +1,5 @@
 <script>
 export default {
-    name : "Category",
     props: {
         image: {
             type: String, 
