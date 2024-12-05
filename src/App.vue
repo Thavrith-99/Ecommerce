@@ -11,6 +11,7 @@ import { mapState } from 'pinia';
 export default {
   name: 'App',
   setup() {
+    console.log('setup App.vue')
     const store = useProductStore();
     return {
       store,
