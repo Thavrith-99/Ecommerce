@@ -3,16 +3,16 @@
       <div v-show="checkPromoStatus" class="promotion-status">
         <p class="lato-regular">{{ showPromoStatus }}</p>
       </div>
-      <img :src="imgPath" alt="">
+      <img :src="imageUrl" alt="">
       <div class="card-title">
         <p class="lato-regular gray">Hodo Foods</p>
           <h4 class="quicksand-regular label">
             {{ 
-              productName || "Seeds of Change Organic Quinoa, Brown, & Red Rice" 
+              name || "Seeds of Change Organic Quinoa, Brown, & Red Rice" 
             }}
           </h4>  
         
-        <div class="rating">
+        <div class="rating" v-if="rating">
           <template v-for="n in rating">
               <svg xmlns="http://www.w3.org/2000/svg" width="20px" viewBox="0 0 24 24" fill="#FDC040"><path d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26Z"></path></svg>
           </template>
@@ -26,7 +26,7 @@
     
         <div class="card-price">
           <div>
-            <template v-if="discountPercent > 0" >
+            <template v-if="promotionAsPercentage > 0" >
             <h2 class="quicksand-regular price-color">{{`$${discountedPrice}`}}</h2>
             <p class="quicksand-regular"><del>{{ `$${price}` }}</del></p>
             </template>
@@ -47,24 +47,28 @@
     
     <script>
     export default {
-      props: {
+      props: ['name', 'rating', 'size', 'image', 'price','promotionAsPercentage','categoryID','instock','countSold','group'],
+      // props: {
        
-        promoLabel: {
-          type: String,
-          default: "hello"
-        },
-        productName: {
-          type: String,
-          default: "Bocchi"
-        },
+      //   promoLabel: {
+      //     type: String,
+      //     default: "hello"
+      //   },
+      //   name: {
+      //     type: String,
+      //     default: "Bocchi"
+      //   },
+      //   rating:{
+      //     type: Number,
+      //   }
     
-        price: 0,
-        discountPercent: 0,
-        imgPath: "",
-        rating: 0,
-        countSold: 0,
-        instock: 0,
-      },
+      //   price: 0,
+      //   discountPercent: 0,
+      //   imgPath: "", // this is JSON string
+      //   rating: 0,
+      //   countSold: 0,
+      //   instock: 0,
+      // },
     
       data() {
           return {
@@ -81,7 +85,7 @@
     
           if(this.promoType === 'discount') {
             this.promoColor = "#3BB77E"
-            return "-%" + this.discountPercent
+            return "-%" + this.promotionAsPercentage
           }
           else if(this.promoType === 'hot') {
             this.promoColor  = "#FD6E6E"
@@ -94,7 +98,7 @@
         },
     
         discountedPrice() {
-          const discounted = this.price * (1 - this.discountPercent / 100) 
+          const discounted = this.price * (1 - this.promotionAsPercentage / 100) 
           return discounted.toFixed(2)
         },
     
@@ -103,7 +107,7 @@
           let sale = false
           let hot = false
     
-          if(this.discountPercent > 0) {
+          if(this.promotionAsPercentage > 0) {
             this.promoType = "discount"
             discount = true
           }
@@ -124,6 +128,15 @@
           
           return true
         },
+        imageUrl() {
+          if (this.image) {
+            const images = JSON.parse(this.image)
+            if (images && images.length>0) {
+              return 'http://localhost:3000/'+images[0]
+            }
+            return null
+          }
+        }
       },
     
       methods: {

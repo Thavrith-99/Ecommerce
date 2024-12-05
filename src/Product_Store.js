@@ -10,7 +10,7 @@ export const useProductStore = defineStore('product', {
     }),
     getters: {},
     actions: {
-        async fetchCategories() { 
+      async fetchCategories() { 
             await axios.get('http://localhost:3000/api/categories')
             .then(response => {
               // Access the data
@@ -20,8 +20,8 @@ export const useProductStore = defineStore('product', {
             .catch(error => {
               console.error('Error fetching data:', error);
         });
-               },
-        async fetchPromotions() {
+      },
+      async fetchPromotions() {
             await axios.get('http://localhost:3000/api/promotions')
             .then(response => {
               // Access the data
@@ -32,6 +32,17 @@ export const useProductStore = defineStore('product', {
               console.error('Error fetching data:', error);
         });
                 
-               }
+      },
+      async fetchProducts() {
+        await axios.get('http://localhost:3000/api/products')
+        .then(response => {
+          // Access the data
+          // console.log(response.data); 
+          this.products = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });         
+      }
     },
   })    

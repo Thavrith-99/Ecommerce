@@ -21,116 +21,30 @@ export default {
     ButtonComponent,
     CategoryComponent,
     PromotionComponent,
+    ProductComponent,
   },
   data() {
     return {
-
-      promotions: [],
-      product: [],
     };
   },
   computed: {
     ...mapState(useProductStore, {
-      Categories: 'categories',
-    }),
-
-    ...mapState(useProductStore, {
-      Products: 'Products',
+      categories: 'categories',
+      products: 'products',
+      promotions: 'promotions'
     }),
   },
   async mounted() {
     // Fetch categories and promotions from backend
     await this.store.fetchCategories();
-    await this.fetchPromotions();
-    await this.fetchProducts();
-  },
-  methods: {
-    async fetchPromotions() {
-      try {
-        const result = await axios.get('http://localhost:3000/api/promotions');
-        this.promotions = result.data.map(promotion => ({
-          ...promotion,
-          image: promotion.image.startsWith('http')
-            ? promotion.image
-            : `http://localhost:3000/${promotion.image}`,
-        })); 
-        // console.log(this.promotions)
-      } catch (error) {
-        console.error('Error fetching promotions:', error);
-      }
-    },
+    await this.store.fetchPromotions();
+    await this.store.fetchProducts();
   },
 };
 </script>
 
 <template>
-  <div class="featured-categories">
-    <h2>Featured Categories</h2>
-    <ul class="category-list">
-      <li><a href="#" class="active">All</a></li>
-      <li><a href="#">Milks & Dairies</a></li>
-      <li><a href="#">Coffees & Teas</a></li>
-      <li><a href="#">Pet Foods</a></li>
-      <li><a href="#">Meats</a></li>
-      <li><a href="#">Vegetables</a></li>
-      <li><a href="#">Fruits</a></li>
-    </ul>
-  </div>
-
-  <div class="content-wrapper">
-    <div class="category">
-      <template v-for="category in Categories" :key="category.id">
-        <CategoryComponent 
-          :name="category.name" 
-          :amount="category.productCount" 
-          :color="category.color" 
-          :image="category.image"
-        />
-      </template>
-    </div>
-
-    <div class="promotion">
-      <template v-for="promotion in promotions" :key="promotion.id">
-        <PromotionComponent 
-          :title="promotion.title" 
-          :color="promotion.color" 
-          :btnColor="promotion.buttonColor" 
-          :image="promotion.image"
-        />
-      </template>
-    </div>
-
-    
-  </div>
-  <div class="featured-categories">
-    <h2>Popular Products</h2>
-    <ul class="category-list">
-      <li><a href="#" class="active">All</a></li>
-      <li><a href="#">Milks & Dairies</a></li>
-      <li><a href="#">Coffees & Teas</a></li>
-      <li><a href="#">Pet Foods</a></li>
-      <li><a href="#">Meats</a></li>
-      <li><a href="#">Vegetables</a></li>
-      <li><a href="#">Fruits</a></li>
-    </ul>
-  </div>
-
-  <div class="product">
-      <template v-for="product in products" :key="product.id">
-        <PromotionComponent 
-          :name="product.name" 
-          :rating="product.color" 
-          :size="product.size" 
-          :image="product.image"
-          :price="product.price"
-          :promotionAsPercentage="product.promotionAsPercentage"
-          :categoryID="product.categoryID"
-          :instock="product.instock"
-          :countSold="product.countSold"
-          :group="product.group"
-        />
-      </template>
-    </div>
+  <RouterView/>
 </template>
 
 
