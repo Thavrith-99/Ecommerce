@@ -2,7 +2,7 @@
   <div id="app" class="container">
     <header class="header">
       <nav>
-        <p>Header</p>
+        <h3>Header</h3>
         <router-link to="/">Page 1</router-link>
         <router-link to="/page2">Page 2</router-link>
         <router-link to="/page3">Page 3</router-link>
@@ -21,7 +21,7 @@
     <main class="content">
       <router-view />
     </main>
-    <footer class="footer">Footer</footer>
+    <h3 class="footer">Footer</h3>
   </div>
 </template>
 
@@ -73,10 +73,11 @@
   padding: 10px;
 }
 
-.container > footer {
+.container > h3 {
   grid-area: footer;
   background-color: #222;
   color: white;
+  height: 70px;
   text-align: center;
   padding: 10px;
 }
