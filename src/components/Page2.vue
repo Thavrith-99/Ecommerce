@@ -1,28 +1,27 @@
 <template>
-    <div>
-      <aside>
-        <ul>
-          <li>Section 1</li>
-          <li>Section 2</li>
-          <li>Section 3</li>
-          <li>Section 4</li>
-        </ul>
-      </aside>
-      <section>Welcome to Page 2</section>
-    </div>
-  </template>
-  
-  <style>
-  aside {
-    width: 20%;
-    background: #444;
-    color: white;
-    padding: 10px;
-  }
-  
-  section {
-    width: 80%;
-    padding: 10px;
-  }
-  </style>
-  
+  <div class="jb">
+    
+    <h3 class="kl">Welcome to Page 2</h3>
+  </div>
+</template>
+
+<style>
+aside {
+  width: 300px;
+  background: #444;
+  color: rgb(248, 248, 248);
+  padding: 10px;
+}
+
+.h3 {
+  width: 300px;
+  padding: 10px;
+}
+.jb{
+  width: 700px;
+}
+.kl{
+  width: 700px;
+  text-align: center;
+}
+</style>
