@@ -10,8 +10,8 @@ class CategoryController extends Controller
 
     // Get /api/categories
     public function getCategories(){
-      //return response()->json(Category::all());
-         return ['message' => "Getting list of categories"];
+      return response()->json(Category::all());
+        // return ['message' => "Getting list of categories"];
     }
 
     // Post /api/categories
@@ -23,7 +23,7 @@ class CategoryController extends Controller
 
       $category = Category::create([
         'name' => $request-> name
-      ]);
+      ])->save();
 
       return response()->json([
         'message'=>'Added successfully ! ',
