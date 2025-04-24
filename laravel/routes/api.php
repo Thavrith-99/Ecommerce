@@ -14,10 +14,21 @@ Route::get('/user', function (Request $request) {
 Route::controller(CategoryController::class)->prefix('categories')->group(function(){
     Route::get('/', 'getCategories');
     Route::post('/', 'createCategory');
+
+
+    Route::get('/search', 'searchCategory');
+    Route::get('/sort', 'sortCategories');
+
+    Route::get('/limited_category/{limited}', 'getLimitedCategories');
+
     Route::get('/{categoryId}', 'getCategory');
     Route::patch('/{categoryId}', 'updateCategory');
     Route::delete('/{categoryId}', 'deleteCategory');
-    
+
+    Route::get('/{categoryId}/products', 'getProductsByCategory');
+
+    Route::post('/restore/{categoryId}', 'restoreCategory');
+
 });
 
 Route::controller(ProductController::class)->prefix('products')->group(function(){
