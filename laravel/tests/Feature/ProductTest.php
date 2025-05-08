@@ -73,9 +73,9 @@ class ProductTest extends TestCase
      *
      */
     public function test_if_we_can_access_get_product_by_id_api() {
-        $request = $this->get('/api/products/8');
+        $request = $this->get('/api/products/10');
 
-        $request->assertStatus(200)->assertJson(["id" => 8]);
+        $request->assertStatus(200)->assertJson(["id" => 10]);
     }
 
      /**
@@ -97,7 +97,7 @@ class ProductTest extends TestCase
      *
      */
     public function test_if_we_can_access_update_product_by_id_api() {
-        $request = $this->patch('/api/products/8', [
+        $request = $this->patch('/api/products/10', [
             "name" => "test_product_02_updated",
             "pricing" => 999,
             "category_id" => 5,
@@ -105,9 +105,7 @@ class ProductTest extends TestCase
 
         $request->assertStatus(200)->assertJson([
             
-            "name" => "test_product_02_updated",
-            "pricing" => 999,
-            "category_id" => 5,
+            "message"=>"success",
         ]);
     }
 
@@ -128,8 +126,8 @@ class ProductTest extends TestCase
      *
      */
     public function test_if_we_can_delete_product_api() {
-        $request = $this->delete('/api/products/8');
-        $request->assertStatus(200)->assertJson(['id' => 8]);
+        $request = $this->delete('/api/products/10');
+        $request->assertStatus(200)->assertJson(['id' => 10]);
 
         // $request = $this->get('/api/products/4');
         // $request->assertStatus(200)->assertDontSee(["id" => 4]);

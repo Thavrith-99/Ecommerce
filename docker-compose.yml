@@ -44,6 +44,8 @@ services:
       MYSQL_PASSWORD: laravel_test
     networks:
       - laravel
+
+    
 networks:
   laravel:
     driver: bridge

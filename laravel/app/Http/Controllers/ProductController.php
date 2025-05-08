@@ -51,7 +51,7 @@ class ProductController extends Controller
     $product->category_id = $request->category_id;
     $product->pricing = $request->pricing;
     $product->save();
-    return $product;
+    return ["message" => "success"];
 }
 
 // --- Delete /api/products/{productId}
