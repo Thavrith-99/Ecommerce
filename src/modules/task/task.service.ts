@@ -1,61 +1,59 @@
-import { Injectable } from '@nestjs/common';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Task } from './task.entity';
-import { In, Repository } from 'typeorm';
-import { UpdateTaskDto } from './dto/update-task.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TaskService {
   constructor(
-    @InjectRepository(Task) private readonly taskRepo: Repository<Task>,
+    @InjectRepository(Task)
+    private taskRepo: Repository<Task>,
   ) {}
 
-  getTask(id: number) {
-    return this.taskRepo.findOne({ where: { id } });
+  createTask(taskData: Partial<Task>) {
+    const task = this.taskRepo.create(taskData);
+    return this.taskRepo.save(task);
   }
 
-  getAllTasks() {
-    return this.taskRepo.find();
+  findAll() {
+    return this.taskRepo.find({
+      relations: ['user'],
+    });
   }
 
-  async createTask(body: CreateTaskDto) {
-    const task = this.taskRepo.create(body);
-    await this.taskRepo.save(task);
-    return this.getTask(task.id);
-  }
-  async updateTask(id: number, body: UpdateTaskDto) {
-    await this.taskRepo.update(id, body);
-    return this.getTask(id);
-  }
+  async findOne(id: number) {
+    const task = await this.taskRepo.findOne({
+      where: { id },
+      relations: ['user'],
+    });
+    if (!task) {
+      throw new NotFoundException(`Task with id ${id} not found`);
+    }
 
-  async markDone(id: number) {
-    await this.taskRepo.update(id, { completedAt: new Date().toISOString() });
-  }
-
-  async markPending(id: number) {
-    await this.taskRepo.update(id, { completedAt: null });
-  }
-
-  async deleteTask(id: number) {
-    const task = await this.getTask(id);
-    await this.taskRepo.softDelete({ id });
     return task;
   }
+  async update(id: number, updateData: Partial<Task>) {
+    await this.taskRepo.update(id, updateData);
+    return this.findOne(id);
+  }
+  remove(id: number) {
+    return this.taskRepo.delete(id);
+  }
 
-  async deleteAllTasks() {
-    // const tasks = await this.taskRepo.find();
-    // const ids = tasks.map((t) => t.id);
-    // console.log(ids);
+  clearAll() {
+    return this.taskRepo.clear();
+  }
 
-    // await this.taskRepo.softDelete({ id: In(ids) });
-
-    await this.taskRepo
-      .createQueryBuilder()
-      .softDelete()
-      .where('1=1') // targets all rows
-      .execute();
-
-    return { message: 'all tasks deleted' };
+  async completeTask(id: number) {
+    const task = await this.taskRepo.findOne({ where: { id } });
+    if (!task) {
+      throw new NotFoundException(`Task with id ${id} not found`);
+    }
+    if (task.completedAt === null) {
+      await this.taskRepo.update(id, { completedAt: new Date() });
+    } else {
+      await this.taskRepo.update(id, { completedAt: null });
+    }
+    return this.findOne(id);
   }
 }

@@ -1,45 +1,36 @@
-import {
-  Get,
-  Param,
-  Controller,
-  Post,
-  Body,
-  Patch,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
 import { UserService } from './user.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+
 
 @Controller('users')
-export class UsersController {
+export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get('/:id')
-  getUser(@Param('id') id: number) {
-    return this.userService.findOne(id);
+  @Post()
+  @UsePipes(new ValidationPipe({ whitelist: true }))
+  createUser(@Body() createUserDto: CreateUserDto) {
+    return this.userService.createUser(createUserDto);
   }
 
   @Get()
-  getAllUsers() {
+  findAll() {
     return this.userService.findAll();
   }
-
-  @Post()
-  createUser(
-    @Body() body: { username: string; email: string; password: string },
-  ) {
-    return this.userService.create(body);
+  @Get(':id')
+  findOne(@Param('id') id: number) {
+    return this.userService.findOne(id);
   }
-
-  @Patch('/:id')
-  updateUser(
-    @Param('id') id: number,
-    @Body() body: { username: string; email: string; password: string },
-  ) {
-    return this.userService.update(id, body);
+  @Patch(':id')
+  @UsePipes(new ValidationPipe({ whitelist: true }))
+  update(@Param('id') id: string, @Body() updateUserDTO: UpdateUserDto) {
+    const updatedUser = this.userService.update(+id, updateUserDTO);
+    return { message: 'User updated successfully', data: updatedUser };
   }
-
-  @Delete('/:id')
-  deleteUser(@Param('id') id: number) {
-    return this.userService.remove(id);
+  @Delete(':id')
+  remove(@Param('id') id: String) {
+    return this.userService.remove(+id);
   }
+  
 }
