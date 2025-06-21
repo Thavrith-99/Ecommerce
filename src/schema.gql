@@ -1,0 +1,53 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Student {
+  id: Int!
+  name: String!
+  idCard: String!
+  class: String!
+}
+
+type Attendance {
+  session: String!
+  status: AttendanceStatus!
+  student_id: Int!
+  marker: String!
+}
+
+enum AttendanceStatus {
+  P
+  AP
+  L
+  A
+}
+
+type Query {
+  getStudentsByClass(className: String!): [Student!]!
+  getAllStudents: [Student!]!
+  countAttendanceByClass(className: String!): Int!
+  countAttendanceByStudent(student_id: Int!): Int!
+  getAllAttendance: [Attendance!]!
+}
+
+type Mutation {
+  enrollStudent(input: StudentInput!): Student!
+  updateStudent(id: Int!, input: StudentInput!): Student!
+  removeStudent(id: Int!): Boolean!
+  markAttendance(input: AttendanceInput!): Attendance!
+  removeAttendance(student_id: Int!, session: String!): Boolean!
+}
+
+input StudentInput {
+  name: String!
+  idCard: String!
+  class: String!
+}
+
+input AttendanceInput {
+  session: String!
+  status: AttendanceStatus!
+  student_id: Int!
+  marker: String!
+}

@@ -1,0 +1,34 @@
+enum AttendanceStatus {
+  P
+  AP
+  L
+  A
+}
+
+type Student {
+  id: ID!
+  name: String!
+  idCard: String!
+  class: String!
+}
+
+type Attendance {
+  session: String!
+  status: AttendanceStatus!
+  student_id: ID!
+  marker: String!
+}
+
+type Query {
+  getStudentsByClassName(className: String!): [Student!]!
+  countAttendanceByClassName(className: String!): Int!
+  countAttendanceByStudentID(studentId: ID!): Int!
+}
+
+type Mutation {
+  enrollStudent(name: String!, idCard: String!, class: String!): Student!
+  removeStudent(id: ID!): Student!
+  updateStudent(id: ID!, name: String, idCard: String, class: String): Student!
+  markAttendance(session: String!, student_id: ID!, status: AttendanceStatus!, marker: String!): Attendance!
+  removeAttendance(session: String!, student_id: ID!): Attendance!
+}
